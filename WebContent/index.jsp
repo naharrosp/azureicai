@@ -7,6 +7,6 @@
 <title>Hello wOrld</title>
 </head>
 <body>
-	Bazinga!
+	Bazinga! 2
 </body>
 </html>
