@@ -7,6 +7,6 @@
 <title>Hello wOrld</title>
 </head>
 <body>
-	Bazinga! With DevOps :P)
+	Bazinga! With DevOps :p
 </body>
 </html>
