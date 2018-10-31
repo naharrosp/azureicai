@@ -1,6 +1,7 @@
 package serlvet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,7 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import com.google.gson.JsonObject;
+
 import sql.sqlDAO;
+import translator.Translate;
 
 /**
  * Servlet implementation class mostrarTodo
@@ -33,12 +41,14 @@ public class mostrarTodo extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-
+		
+		//Base de datos
     	sqlDAO	dao= sqlDAO.getDao();
+    	ArrayList <String> words=null;
     	try {
     		dao.con = sqlDAO.createConnection();
     		
-    		request.setAttribute("list", dao.getAllWords());
+    		words= dao.getAllWords();
     		
     	}
     	catch(Exception e) {
@@ -46,7 +56,30 @@ public class mostrarTodo extends HttpServlet {
     		e.printStackTrace();
     	}
     	
-    	System.out.println(request.getAttribute("list"));
+    	//Traductor
+    	ArrayList <String> words_trans=new ArrayList <String>();
+    	try {
+    		for(String word: words) {
+		    	String translatedText = Translate.TranslateText (word);
+		    	
+		    	JSONParser parser = new JSONParser();
+		    	JSONObject json = (JSONObject) parser.parse(translatedText);
+		    	
+		    	JSONArray trans = (JSONArray)json.get("translations");
+		    	for(Object obj: trans){
+		    		JSONObject o = (JSONObject) obj;
+		    		String w = (String)o.get("text");
+		    		words_trans.add(w);
+		    	}
+    		}
+
+	    		
+    	}catch(Exception e) {
+    		System.out.println("Error");
+    		e.printStackTrace();
+    	}
+    	
+		request.setAttribute("list", words_trans);
     	
     	String nextJSP = "/list.jsp";
     	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
