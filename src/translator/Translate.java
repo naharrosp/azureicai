@@ -39,7 +39,7 @@ public class Translate {
     static String path = "/translate?api-version=3.0";
 
     // Translate to German and Italian.
-    static String params = "&to=es&to=fr";
+    static String params = "&to=es";
 
     public static class RequestBody {
         String Text;

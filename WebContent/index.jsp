@@ -8,5 +8,13 @@
 </head>
 <body>
 	Bazinga! With DevOps :p
+	
+	 <br><br>
+	<form action="mostrarTodo">
+  		Text (with or without errors):<br>
+  		<input type="text" name="text" value="Text">
+  		<br><br>
+  		<input type="submit" value="Submit">
+	</form> 
 </body>
 </html>

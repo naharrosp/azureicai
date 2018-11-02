@@ -106,5 +106,33 @@ public class sqlDAO {
         
         return array;
 	}
+	
+	public void saveText(String text) throws Exception{
+		
+		if (con == null) 
+        { 
+			sqlDAO.createConnection();
+        }
+        System.out.println("Successfully created connection to database.");
+
+        // Perform some SQL queries over the connection.
+        try
+        {
+            
+            PreparedStatement ps;
+            ps=con.prepareStatement("insert into psanchez.list (word) values(?)");
+            ps.setString(1, text);
+            ps.executeUpdate();
+            
+            
+        }
+        catch (SQLException e)
+        {
+            throw new SQLException("Encountered an error when executing given sql statement.", e);
+        }       
+        
+        System.out.println("Execution finished.");
+        
+	}
 
 }
